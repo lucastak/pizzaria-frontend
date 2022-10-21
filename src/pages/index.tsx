@@ -1,10 +1,23 @@
 import type { NextPage } from "next";
+import styles from "../../styles/home.module.scss";
+import Head from "next/head";
+import { Input } from "../components/ui/Input";
 
 const Home: NextPage = () => {
   return (
-    <div>
-      <h1>Testee</h1>
-    </div>
+    <>
+      <Head>
+        <title>Home</title>
+      </Head>
+      <div className={styles["container"]}>
+        <h1 className={styles["title__login-page"]}>Pizzaria</h1>
+
+        <div className={styles["container__login"]}>
+          <Input placeholder="Digite seu email" type="text" />
+          <Input placeholder="Digite sua senha" type="password" />
+        </div>
+      </div>
+    </>
   );
 };
 
