@@ -25,7 +25,7 @@ const SignUp: NextPage = () => {
               Cadastrar
             </Button>
           </form>
-          <Link href="/signup">
+          <Link href="/">
             <a className={styles["login__signup"]}>
               Já possui uma conta? Faça login
             </a>
