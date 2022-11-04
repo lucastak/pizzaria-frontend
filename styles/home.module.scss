@@ -1,5 +1,47 @@
-.title__login-page {
-  color: var(--red-900);
-  text-transform: uppercase;
-  font-family: sans-serif;
+.container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: var(--gray-900);
+
+  .title__login-page {
+    color: var(--red-900);
+    font-style: italic;
+  }
+
+  .subtitle__signup-page {
+    color: var(--white);
+  }
+
+  .login__container {
+    margin-top: 2rem;
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    button {
+      max-width: none;
+    }
+
+    form {
+      width: 90%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    form button {
+      height: 40px;
+      font-size: 1.2rem;
+    }
+
+    .login__signup {
+      margin-top: 1rem;
+      color: var(--white);
+      cursor: pointer;
+    }
+  }
 }
