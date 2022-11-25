@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import type { NextPage } from "next";
 import styles from "../../../styles/home.module.scss";
 import Head from "next/head";
@@ -7,6 +8,12 @@ import { Button } from "../../components/ui/Button";
 import Link from "next/link";
 
 const SignUp: NextPage = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [loading, setLoading] = useState(false);
+
   return (
     <>
       <Head>

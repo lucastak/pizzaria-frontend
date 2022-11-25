@@ -16,12 +16,20 @@ const Home: NextPage = () => {
   async function handleLogin(event: FormEvent) {
     event.preventDefault();
 
+    if (email == "" || password == "") {
+      alert("preencha osd ados");
+      return;
+    }
+
+    setLoading(true);
+
     let data = {
       email: email,
       password: password,
     };
 
     await signIn(data);
+    setLoading(false);
   }
 
   return (
@@ -46,7 +54,7 @@ const Home: NextPage = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <Button type="submit" loading={false}>
+            <Button type="submit" loading={loading}>
               Acessar
             </Button>
           </form>
