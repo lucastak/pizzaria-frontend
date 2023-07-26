@@ -8,6 +8,7 @@ type AuthContextData = {
   isAuthenticated: boolean;
   signIn: (credentials: SignInProps) => Promise<void>;
   signOut: () => void;
+  signUp: (credentials: SignUpProps) => Promise<void>
 };
 
 type UserProps = {
@@ -21,9 +22,16 @@ type SignInProps = {
   password: string;
 };
 
+type SignUpProps = {
+  name: string;
+  email: string;
+  password: string;
+};
+
 type AuthProviderProps = {
   children: ReactNode;
 };
+
 
 export const AuthContext = createContext({} as AuthContextData);
 
@@ -41,6 +49,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const isAuthenticated = !!user;
 
   async function signIn({ email, password }: SignInProps) {
+    console.log("chamou signIN", email, password);
+    
     try {
       const response = await api.post("/session", {
         email,
@@ -48,7 +58,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
       });
 
       const { id, name, token } = response.data;
-      console.log(response);
 
       setCookie(undefined, "@nextauth.token", token, {
         maxAge: 60 * 60 * 24 * 30,
@@ -70,8 +79,24 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
+  async function signUp({name, email, password} : SignUpProps) {
+    try {
+      await api.post('/users', {
+        name,
+        email,
+        password
+      })
+
+      Router.push('/')
+      
+    } catch (error) {
+      console.log("erro ao cadastrar: ", error);
+      
+    }
+  }
+
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, signIn, signOut }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, signIn, signOut, signUp }}>
       {children}
     </AuthContext.Provider>
   );
