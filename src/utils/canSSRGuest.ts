@@ -5,9 +5,9 @@ import { parseCookies } from 'nookies';
 export function canSSRGuest<P>(fn: GetServerSideProps<P>) {
     return async(context: GetServerSidePropsContext): Promise<GetServerSidePropsResult<P>> => {
         
-        const cookikes = parseCookies(context);
+        const cookies = parseCookies(context);
 
-        if (cookikes['@nextauth.token']) {
+        if (cookies['@nextauth.token']) {
             return {
                 redirect: {
                     destination: 'dashboard',
