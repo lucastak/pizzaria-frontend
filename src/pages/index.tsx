@@ -6,6 +6,7 @@ import { Input } from "../components/ui/Input";
 import { Button } from "../components/ui/Button";
 import { AuthContext } from "../contexts/AuthContext";
 import Link from "next/link";
+import { canSSRGuest } from "../utils/canSSRGuest";
 
 const Home: NextPage = () => {
   const { signIn } = useContext(AuthContext);
@@ -71,3 +72,9 @@ const Home: NextPage = () => {
 };
 
 export default Home;
+
+export const getServerSideProps = canSSRGuest(async (context) => {
+  return {
+    props: {}
+  }
+})
