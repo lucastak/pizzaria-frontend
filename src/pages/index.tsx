@@ -7,6 +7,7 @@ import { Button } from "../components/ui/Button";
 import { AuthContext } from "../contexts/AuthContext";
 import Link from "next/link";
 import { canSSRGuest } from "../utils/canSSRGuest";
+import { Logo } from "../components/Logo";
 
 const Home: NextPage = () => {
   const { signIn } = useContext(AuthContext);
@@ -40,7 +41,7 @@ const Home: NextPage = () => {
         <title>Home</title>
       </Head>
       <div className={styles["container"]}>
-        <h1 className={styles["title__login-page"]}>Pizzaria</h1>
+        <Logo />
 
         <div className={styles["login__container"]}>
           <form onSubmit={handleLogin}>
