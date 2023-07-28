@@ -1,0 +1,49 @@
+.header__container {
+    height: 5rem;
+
+    .header__content {
+        max-width: 1120px;
+        height: 5rem;
+        margin: 0 auto;
+        padding: 0 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        img{
+            cursor: pointer;
+        }
+
+        .header__content-nav{
+            display: flex;
+            align-items: center;
+
+            a{
+                color: var(--white);
+                padding: 0 0.5rem;
+                display: inline-block;
+                position: relative;
+                transition: color .3s ease-in-out;
+
+                & + a {
+                    margin-left: 2rem;
+                }
+
+                &:hover{
+                    color: var(--red-900);
+                }
+            }
+
+            button{
+                margin-left: 2rem;
+                background-color: transparent;
+                border: 0;
+                transition: all .3s ease-in-out;
+
+                &:hover{
+                    transform: scale(1.2);
+                }
+            }
+        }
+    }
+}
