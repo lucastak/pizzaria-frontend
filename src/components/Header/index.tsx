@@ -17,11 +17,11 @@ export function Header() {
                 </Link>
 
                 <nav className={styles["header__content-nav"]}>
-                    <Link href="/categoria">
+                    <Link href="/category">
                         <a>Categoria</a>
                     </Link>
 
-                    <Link href="/produto">
+                    <Link href="/product">
                         <a>Cardápio</a>
                     </Link>
                     
