@@ -2,15 +2,25 @@ import React, { FormEvent, useState } from "react";
 import Head from "next/head";
 import { Header } from "../../components/Header";
 import styles from "./styles.module.scss"
+import { setupApiClient } from "../../services/api";
+
+
 
 
 export default function Category() {
     const [name, setName] = useState('');
 
-    function handleRegister(event: FormEvent) {
+    async function handleRegister(event: FormEvent) {
         event.preventDefault();
 
-        alert("name " + name)
+        if (name === '') return;
+
+        const apiClient = setupApiClient();
+        await apiClient.post('/category', {
+            name: name
+        })
+        
+        setName('');
     }
 
     return (
