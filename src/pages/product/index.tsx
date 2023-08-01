@@ -8,6 +8,7 @@ export default function Product() {
         <>
             <Head>
                 <title>Novo Produto</title>
+            </Head>
                 <div>
                     <Header />
                     <main className={styles["product__container"]}>
@@ -43,7 +44,7 @@ export default function Product() {
                         </form>
                     </main>
                 </div>
-            </Head>
+            
         </>
     )
 }
