@@ -13,7 +13,9 @@ export function Header() {
         <header className={styles["header__container"]}>
             <div className={styles["header__content"]}>
                 <Link href="/dashboard" >
-                    <Logo />
+                    <a>
+                        <Logo />
+                    </a>
                 </Link>
 
                 <nav className={styles["header__content-nav"]}>
