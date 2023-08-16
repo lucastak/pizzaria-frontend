@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent, FormEvent, useState} from "react";
 import Head from "next/head";
 import styles from "./styles.module.scss";
 import { canSSRAuth } from "../../utils/canSSRAuth";
@@ -20,7 +20,10 @@ export default function Product({ categoryList }: CategoryProps) {
     const [avatarUrl, setAvatarUrl] = useState("");
     const [imageAvatar, setImageAvatar] = useState(null);
     const [categories, setCategories] = useState(categoryList || []);
-    const [categorySelected, setCategorySelected] = useState(0)
+    const [categorySelected, setCategorySelected] = useState(0);
+    const [name, setName] = useState('');
+    const [price, setPrice] = useState('');
+    const [description, setDescription] = useState('');
 
     function handleFile(event: ChangeEvent<HTMLInputElement>) {
         if (!event.target.files) return;
@@ -39,6 +42,35 @@ export default function Product({ categoryList }: CategoryProps) {
         setCategorySelected(event.target.value as unknown as number);
     }
 
+    async function handleRegister(event: FormEvent) {
+        event.preventDefault();
+        try {
+            const data = new FormData();
+
+            if (name === "" || price === "" || description === "" || imageAvatar === "") return;
+
+            data.append("name", name);
+            data.append("price", price);
+            data.append("description", description);
+            data.append("categorie", categories[categorySelected].id);
+            data.append("file", imageAvatar);
+
+            const apiClient = setupApiClient();
+            apiClient.post("/product", data);
+
+        } catch (error) {
+            console.log(error);
+            return;
+        }
+
+        setName("");
+        setPrice("");
+        setDescription("")
+        setAvatarUrl("");
+        setImageAvatar(null);
+        setCategorySelected(0);
+    }
+
     return (
         <>
             <Head>
@@ -49,7 +81,7 @@ export default function Product({ categoryList }: CategoryProps) {
                     <main className={styles["product__container"]}>
                         <h2>Novo Produto</h2>
 
-                        <form className={styles["form__container"]}>
+                        <form className={styles["form__container"]} onSubmit={handleRegister}>
 
                             <label className={styles["form__label-avatar"]}>
                             <span>
@@ -88,18 +120,24 @@ export default function Product({ categoryList }: CategoryProps) {
                                 placeholder="Digite o nome do produto"
                                 type="text"
                                 className={styles["form__input"]}
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
                             />
 
                             <input
                                 placeholder="Preco do produto"
                                 type="text"
                                 className={styles["form__input"]}
+                                value={price}
+                                onChange={(e) => setPrice(e.target.value)}
                             />
 
 
                             <textarea
                                 placeholder="Descreva seu produto..."
                                 className={styles["form__input"]}
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
                             />
 
                             <button className={styles["form__button"]}>
