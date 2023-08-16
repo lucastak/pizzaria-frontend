@@ -5,10 +5,22 @@ import styles from "./styles.module.scss";
 import { canSSRAuth } from "../../utils/canSSRAuth";
 import { Header } from "../../components/Header";
 import { FiUpload } from "react-icons/fi";
+import { setupApiClient } from "../../services/api";
 
-export default function Product() {
+type ItemProps ={
+    id: string,
+    name: string
+}
+
+interface CategoryProps{
+    categoryList: ItemProps[]
+}
+
+export default function Product({ categoryList }: CategoryProps) {
     const [avatarUrl, setAvatarUrl] = useState("");
     const [imageAvatar, setImageAvatar] = useState(null);
+    const [categories, setCategories] = useState(categoryList || []);
+    const [categorySelected, setCategorySelected] = useState(0)
 
     function handleFile(event: ChangeEvent<HTMLInputElement>) {
         if (!event.target.files) return;
@@ -21,6 +33,10 @@ export default function Product() {
             setAvatarUrl(URL.createObjectURL(event.target.files[0]))
         }
 
+    }
+
+    function handleChangeCategory(event: ChangeEvent<HTMLSelectElement>) {
+        setCategorySelected(event.target.value as unknown as number);
     }
 
     return (
@@ -58,9 +74,14 @@ export default function Product() {
 
                             </label>
 
-                            <select>
-                                <option>Bebida</option>
-                                <option>Pizzas</option>
+                            <select value={categorySelected} onChange={handleChangeCategory}>
+                            {categories.map((element, index) => {
+                                return (
+                                    <option key={element.id} value={index}>
+                                        {element.name}
+                                    </option>
+                                    )
+                            })}
                             </select>
 
                             <input
@@ -93,7 +114,12 @@ export default function Product() {
 }
 
 export const getServerSideProps = canSSRAuth(async (ctx) => {
+    const apiClient = setupApiClient(ctx);
+    const response = await apiClient.get("/category");
+
     return {
-        props: {}
+        props: {
+            categoryList: response.data
+        }
     }
 })
