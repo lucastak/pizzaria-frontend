@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import type { NextPage } from "next";
 import { canSSRAuth } from "../../utils/canSSRAuth";
 import Head from "next/head";
@@ -7,8 +7,23 @@ import styles from "./styles.module.scss"
 import { FiRefreshCcw } from "react-icons/fi";
 import {setupApiClient} from "../../services/api"
 
+type OrderProps = {
+  id: string,
+  table: string | number,
+  status: boolean,
+  draft: boolean,
+  name: string | null
+}
+interface HomeProps {
+  orders: OrderProps[]
+}
 
-const Dashboard: NextPage = () => {
+const Dashboard: NextPage = ({ orders }: HomeProps) => {
+  const [orderList, setOrderList] = useState(orders || []);
+
+  function handleOpenModalView(id: string) {
+    alert("id" + id)
+  }
 
   return (
       <>  
@@ -30,14 +45,14 @@ const Dashboard: NextPage = () => {
             </div>
           
             <article className={styles.listOrders}>
-
-                <section className={styles.orderItem}>
-                  <button>
+              {orderList.map(item => (
+                <section key={item.id} className={styles.orderItem}>
+                  <button onClick={() => handleOpenModalView(item.id)}>
                     <div className={styles.tag}></div>
-                    <span>Mesa 30</span>
+                    <span>Mesa {item.table}</span>
                   </button>
-                </section>
-              
+                </section>   
+              ))}
             </article>
           </main>
         </div>
@@ -55,7 +70,7 @@ export const getServerSideProps = canSSRAuth(async (context) => {
 
   return {
       props: {
-          orderList: response.data
+          orders: response.data
       }
   }
 })
