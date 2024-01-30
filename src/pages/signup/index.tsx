@@ -37,7 +37,7 @@ const SignUp: NextPage = () => {
         <title>Faça seu cadastro</title>
       </Head>
       <div className={styles["container"]}>
-        <h1 className={styles["title__login-page"]}>Pizzaria</h1>
+        <h1 data-testid="teste" className={styles["title__login-page"]}>Pizzaria</h1>
         <h2 className={styles["subtitle__signup-page"]}>Crie sua conta</h2>
 
         <div className={styles["login__container"]}>

@@ -78,7 +78,7 @@ export default function Product({ categoryList }: CategoryProps) {
             </Head>
                 <div>
                     <Header />
-                    <main className={styles["product__container"]}>
+                    <main data-testid="product-container" className={styles["product__container"]}>
                         <h2>Novo Produto</h2>
 
                         <form className={styles["form__container"]} onSubmit={handleRegister}>

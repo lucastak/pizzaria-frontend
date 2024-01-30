@@ -3,7 +3,7 @@ import { api } from "../services/apiClient";
 import { destroyCookie, setCookie, parseCookies } from "nookies";
 import Router from "next/router";
 
-type AuthContextData = {
+export type AuthContextData = {
   user: UserProps;
   isAuthenticated: boolean;
   signIn: (credentials: SignInProps) => Promise<void>;
