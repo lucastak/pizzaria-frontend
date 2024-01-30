@@ -5,6 +5,7 @@ import Head from "next/head";
 import { Header } from "../../components/Header";
 import styles from "./styles.module.scss"
 import { FiRefreshCcw } from "react-icons/fi";
+import {setupApiClient} from "../../services/api"
 
 
 const Dashboard: NextPage = () => {
@@ -47,7 +48,14 @@ const Dashboard: NextPage = () => {
 export default Dashboard;
 
 export const getServerSideProps = canSSRAuth(async (context) => {
+  const apiClient = setupApiClient(context);
+  const response = await apiClient.get("/orders");
+  console.log("orders", response.data);
+  
+
   return {
-    props: {}
+      props: {
+          orderList: response.data
+      }
   }
 })
