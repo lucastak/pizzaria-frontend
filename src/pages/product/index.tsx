@@ -52,11 +52,7 @@ export default function Product({ categoryList }: CategoryProps){
 
   }
 
-  //Quando você seleciona uma nova categoria na lista
   function handleChangeCategory(event){
-    // console.log("POSICAO DA CATEGORIA SELECIONADA ", event.target.value)
-   //console.log('Categoria selecionada ', categories[event.target.value])
-
     setCategorySelected(event.target.value)
 
   }
@@ -176,7 +172,6 @@ export const getServerSideProps = canSSRAuth(async (ctx) => {
   const apliClient = setupApiClient(ctx)
 
   const response = await apliClient.get('/category');
-  //console.log(response.data);
 
   return {
     props: {

@@ -5,7 +5,10 @@ import Head from "next/head";
 import { Header } from "../../components/Header";
 import styles from "./styles.module.scss"
 import { FiRefreshCcw } from "react-icons/fi";
-import {setupApiClient} from "../../services/api"
+import { setupApiClient } from "../../services/api"
+import { ModalOrder } from "../../components/Modal";
+
+import Modal from 'react-modal'
 
 type OrderProps = {
   id: string,
@@ -14,16 +17,65 @@ type OrderProps = {
   draft: boolean,
   name: string | null
 }
+
+export type orderItemProps = {
+  id: string,
+  amount: number,
+  order_id: string,
+  product_id: string,
+  product: {
+    id: string,
+    name: string,
+    description: string,
+    price: string,
+    banner: string
+  }
+  order: {
+    id: string,
+    table: string | number,
+    status: boolean,
+    name: string | null
+  }
+
+}
 interface HomeProps {
   orders: OrderProps[]
 }
 
 const Dashboard: NextPage = ({ orders }: HomeProps) => {
   const [orderList, setOrderList] = useState(orders || []);
+  const [modalItem, setModalItem] = useState<orderItemProps[]>()
+  const [modalVisible, setModalVisible] = useState(false);
 
-  function handleOpenModalView(id: string) {
-    alert("id" + id)
+  async function handleOpenModalView(id: string) {
+    const apiClient = setupApiClient();
+    const response = await apiClient.get(`/order/detail`, {
+      params: {
+        order_id: id,
+      }
+    });
+
+    setModalItem(response.data);
+    setModalVisible(true);
   }
+
+  function handleCloseModal(){
+    setModalVisible(false);
+  }
+
+  async function handleFinishItem(id: string) {
+    const apiClient = setupApiClient();
+    await apiClient.put(`/order/finish`, {
+        order_id: id
+    });
+
+    const response = await apiClient.get('/orders')
+
+    setOrderList(response.data)
+    setModalVisible(false)
+  }
+  
+  Modal.setAppElement('#__next')
 
   return (
       <>  
@@ -55,6 +107,16 @@ const Dashboard: NextPage = ({ orders }: HomeProps) => {
               ))}
             </article>
           </main>
+        
+        {modalVisible && (
+          <ModalOrder
+            isOpen={modalVisible}
+            onRequestClose={handleCloseModal}
+            order={modalItem}
+            handleFinishOrder={handleFinishItem}
+          />
+        )}
+
         </div>
       </>
   );
@@ -65,8 +127,6 @@ export default Dashboard;
 export const getServerSideProps = canSSRAuth(async (context) => {
   const apiClient = setupApiClient(context);
   const response = await apiClient.get("/orders");
-  console.log("orders", response.data);
-  
 
   return {
       props: {
